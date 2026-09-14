@@ -78,10 +78,12 @@ omarchy-emacs-sync-hooks
 cp "$SHARE_DIR/omarchy-colors.el.tpl" "$THEMED_DIR/"
 
 # Generate colors for the current theme
-if command -v omarchy-theme-set &>/dev/null; then
+if command -v omarchy-theme-refresh &>/dev/null; then
+  omarchy-theme-refresh
+elif command -v omarchy-theme-set &>/dev/null; then
   theme=$(cat "$HOME/.local/state/omarchy/current/theme.name" 2>/dev/null)
   if [[ -n $theme ]]; then
-    omarchy-theme-set "$theme"
+    OMARCHY_THEME_SKIP_BACKGROUND=1 omarchy-theme-set "$theme"
   fi
 fi
 
